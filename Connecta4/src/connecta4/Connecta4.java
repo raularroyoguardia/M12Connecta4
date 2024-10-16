@@ -30,7 +30,11 @@ public class Connecta4 {
         
         //Mostrar taulell
         mostrarTaulell(taulell);
-
+        
+        Jugador JugadorX = new Jugador('X');
+        Jugador JugadorO = new Jugador('O');
+        Jugador JugadorActual = JugadorX;
+        
     }
 
     public static void missatgeBenvinguda() {
@@ -41,21 +45,46 @@ public class Connecta4 {
 
     public static int demanarFiles() {
         Scanner scanner = new Scanner(System.in);
-        int files;
-        do {
-            System.out.print("Introdueix el número de files: ");
-            files = scanner.nextInt();
-        } while (files < 1);
+        int files = 0;
+        boolean valid = false;
+        
+        do{
+            try{
+                System.out.print("Introdueix el número de files: ");
+                files = scanner.nextInt();
+                if(files < 1) {
+                    System.out.println("El número de files ha de ser major a 0.");
+                }else {
+                    valid = true;
+                }
+            }catch(InputMismatchException e) {
+                System.out.println("Error: Si us plau, introdueix un número enter.");
+                scanner.next();
+            }
+            
+        }while(!valid);
         return files;
     }
 
     public static int demanarColumnes() {
         Scanner scanner = new Scanner(System.in);
-        int columnes;
-        do {
-            System.out.print("Introdueix el número de columnes: ");
-            columnes = scanner.nextInt();
-        } while (columnes < 1);
+        int columnes = 0;
+        boolean valid = false;
+        
+        do{
+            try{
+                System.out.print("Introdueix el numero de columnes: ");
+                columnes = scanner.nextInt();
+                if(columnes < 1) {
+                    System.out.println("El número de columnes ha de ser major a 0.");
+                }else {
+                    valid = true;
+                }
+            }catch(InputMismatchException e) {
+                System.out.println("Error: Si us plau, introdueix un número enter.");
+                scanner.next();
+            }
+        }while(!valid);
         return columnes;
     }
 
