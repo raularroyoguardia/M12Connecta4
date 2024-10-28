@@ -17,6 +17,7 @@ public class Connecta4 {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        Scanner teclat = new Scanner(System.in);
 
         missatgeBenvinguda();
 
@@ -26,23 +27,55 @@ public class Connecta4 {
 
 
         //Creació del taulell
-        char[][] taulell = crearTaulell(files, columnes);
+        Tablero tablero = new Tablero(files, columnes);
         
         //Mostrar taulell
-        mostrarTaulell(taulell);
+        tablero.mostrarTablero();
         
         Jugador JugadorX = new Jugador('X');
         Jugador JugadorO = new Jugador('O');
         Jugador JugadorActual = JugadorX;
         
+        boolean empezado = true;
+        
+        while(empezado) {
+            System.out.println("Turno del jugador " + JugadorActual.getSimbol());
+            int columna;
+            
+            do{
+                System.out.print("Introduce una columna (1-"+columnes+"): ");
+                columna = teclat.nextInt() - 1;
+            }while(!tablero.posicioValida(columna));
+            
+            tablero.colocar(columna, JugadorActual.getSimbol());
+            tablero.mostrarTablero();
+            
+            if(tablero.comprovarGuanyador(JugadorActual.getSimbol())) {
+                System.out.println("El jugador " + JugadorActual.getSimbol() + " ha ganado.");
+                empezado = false;
+            }else if(tablero.tableroOcupado()){
+                System.out.println("EMPATE");
+                empezado = false;
+            }else {
+                JugadorActual = (JugadorActual == JugadorX) ? JugadorO : JugadorX;
+            }
+        }
+        
     }
 
+    /**
+     * Muestra el título
+     */
     public static void missatgeBenvinguda() {
         System.out.println("==========");
         System.out.println("CONNECTA 4");
         System.out.println("==========\n");
     }
 
+    /**
+     * Verificar que el valor introducido el valido
+     * @return filas del tablero
+     */
     public static int demanarFiles() {
         Scanner scanner = new Scanner(System.in);
         int files = 0;
@@ -66,6 +99,10 @@ public class Connecta4 {
         return files;
     }
 
+    /**
+     * Verificar que el valor introducido el válido
+     * @return columnas del tablero
+     */
     public static int demanarColumnes() {
         Scanner scanner = new Scanner(System.in);
         int columnes = 0;
@@ -86,45 +123,6 @@ public class Connecta4 {
             }
         }while(!valid);
         return columnes;
-    }
-
-    public static char[][] crearTaulell(int filas, int columnas) {
-        char[][] taulell = new char[filas][columnas];
-
-        for (int i = 0; i < filas; i++) {
-            for (int j = 0; j < columnas; j++) {
-                taulell[i][j] = ' ';
-            }
-        }
-        return taulell;
-    }
-
-    public static void mostrarTaulell(char[][] taulell) {
-        System.out.println();
-        
-        //Imprimir les files amb separadors
-        for (int i = 0; i < taulell.length; i++) {
-            System.out.print("" + (taulell.length - i) + " | ");
-            for (int j = 0; j < taulell[i].length; j++) {
-                System.out.print(taulell[i][j] + " | ");
-            }
-            System.out.println();
-
-            //Línia separadora
-            System.out.print(" ");
-            for (int j = 0; j < taulell[i].length; j++) {
-                System.out.print("----");
-            }
-            System.out.println("-");
-        }
-
-        //Numeració de les columnes
-        System.out.print("   ");
-        for (int j = 1; j <= taulell[0].length; j++) {
-            System.out.print(" " + j + "  ");
-        }
-        System.out.println();
-
     }
 
 }
